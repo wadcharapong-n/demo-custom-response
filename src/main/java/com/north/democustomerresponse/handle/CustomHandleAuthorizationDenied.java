@@ -1,13 +1,11 @@
 package com.north.democustomerresponse.handle;
 
-import lombok.NonNull;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.security.authorization.AuthorizationResult;
 import org.springframework.security.authorization.method.MethodAuthorizationDeniedHandler;
 import org.springframework.security.authorization.method.MethodInvocationResult;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import static com.north.democustomerresponse.util.MarkingUtil.markingValue;
