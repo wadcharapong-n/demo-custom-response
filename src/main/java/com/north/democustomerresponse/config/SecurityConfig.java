@@ -22,7 +22,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/**").authenticated()
                         .anyRequest().permitAll()
                 )
-                .addFilterBefore(new SampleFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new BackDoorFilter(), UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .build();
     }

