@@ -5,6 +5,9 @@ import com.north.democustomerresponse.exception.FeatureDisabledException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 
 @Aspect
 public class FeatureToggleAspect {
@@ -21,7 +24,8 @@ public class FeatureToggleAspect {
             if (toggle.failClosed()) {
                 throw new FeatureDisabledException("Feature disabled: " + toggle.value());
             }
-            return null; // or Optional.empty(), or proceed with fallback
+//            return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("do something"); // or Optional.empty(), or proceed with fallback
+            return null;
         }
         return pjp.proceed();
     }

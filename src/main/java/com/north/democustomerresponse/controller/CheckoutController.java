@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CheckoutController {
 
     @GetMapping("/checkout")
-    @FeatureToggle(value = "new.checkout")
+    @FeatureToggle(value = "new.checkout", failClosed = true)
     public ResponseEntity<String> checkoutNewFeatures() {
         return ResponseEntity.ok("checkout");
     }
