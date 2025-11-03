@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FeatureConfig {
+
     @Bean
     public FeatureProvider featureProvider(org.springframework.core.env.Environment env) {
         return new EnvironmentFeatureProvider(env);
